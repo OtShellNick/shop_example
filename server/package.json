@@ -10,11 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "moleculer": "^0.14.23",
     "moleculer-web": "^0.10.4"
   },
   "devDependencies": {
-    "moleculer-repl": "^0.7.2",
-    "dotenv": "^16.0.2"
+    "dotenv": "^16.0.2",
+    "moleculer-repl": "^0.7.2"
   }
 }

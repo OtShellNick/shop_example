@@ -1,5 +1,6 @@
 require('dotenv').config({path: '../.env'});
 const ApiGateway = require("moleculer-web");
+const cors = require('cors');
 
 module.exports = {
     name: 'api',
@@ -7,14 +8,14 @@ module.exports = {
     mixins: [ApiGateway],
     settings: {
         origin: '*',
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        methods: ['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE'],
+        use: [cors()],
         port: process.env.SERVER_PORT || 3000,
         routes: [
             {
                 path: '/',
                 authorization: true,
                 autoAliases: true,
-                cors: true,
                 bodyParser: {
                     json: {
                         strict: false,
