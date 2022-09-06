@@ -14,15 +14,10 @@ module.exports = {
         routes: [
             {
                 path: '/',
-                authorization: true,
                 autoAliases: true,
                 bodyParser: {
-                    json: {
-                        strict: false,
-                    },
-                    urlencoded: {
-                        extended: false
-                    }
+                    json: true,
+                    urlencoded: {extended: true}
                 }
             }
         ],

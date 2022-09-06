@@ -1,6 +1,7 @@
 import React from "react";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {registration} from "@actions/personal";
 
 const RegistrationForm = () => {
 
@@ -21,8 +22,15 @@ const RegistrationForm = () => {
     return <div className="registration">
         <Formik
             initialValues={{name: '', email: "", password: ""}}
-            onSubmit={(values) => {
-                console.log(values);
+            onSubmit={async (values, {setSubmitting}) => {
+                setSubmitting(true);
+
+                try {
+                    const user = await registration(values);
+                    console.log(user);
+                } catch (e) {
+                    console.log(e)
+                }
             }}
         validationSchema={SignupSchema}>
             {({

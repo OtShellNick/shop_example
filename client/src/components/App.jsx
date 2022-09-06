@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-import {getSelf} from "@actions/personal";
+import {registration} from "@actions/personal";
 import {Route, Routes} from "react-router-dom";
 
 import Layout from "@components/Layout/Layout";
@@ -10,7 +10,7 @@ import Home from "@components/Home/Home";
 const App = () => {
 
     useEffect(() => {
-        getSelf();
+        registration({email: 'test@example.com'});
     }, [])
 
     return <Routes>
