@@ -10,11 +10,13 @@ const Login = () => {
     return <div className="container">
         <div className="form">
             <div className="form__header">
-            <h1 className="title form__title">{isLogin ? "Login" : "Registration"}</h1>
-            <button className="btn form__btn" onClick={() => setIsLogin(prevState => !prevState)}>{isLogin ? 'Registration' : 'Login'}</button></div>
+                <h1 className="title form__title">{isLogin ? "Login" : "Registration"}</h1>
+                <button className="btn form__btn"
+                        onClick={() => setIsLogin(prevState => !prevState)}>{isLogin ? 'Registration' : 'Login'}</button>
+            </div>
             {isLogin && <LoginForm/>}
             {!isLogin && <RegistrationForm/>}
-    </div>
+        </div>
     </div>
 };
 
