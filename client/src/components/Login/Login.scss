@@ -1,0 +1,48 @@
+.title{
+    margin: 0;
+}
+
+
+.btn{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+
+.container{
+    background-color: rgb(247, 240, 246);
+    min-height: 100vh;
+    
+}
+
+.form{
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border-radius: 10px;
+    border: 2px rgb(212, 190, 201) solid;
+    margin: auto;
+    padding: 25px 40px;
+    color: rgb(111, 58, 84);
+    align-self: center;
+}
+
+.form__btn{
+    position: absolute;
+    right: 45px;
+    top: 30px;
+    padding: 10px 20px;
+    background-color: rgb(198, 214, 228);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: rgb(170, 99, 153);
+}
+
+.form__title{
+    position: absolute;
+    top: 23%;
+    right: 48%;
+   
+}
