@@ -1,4 +1,4 @@
-const {connect} = require('../db');
+const {connect, ObjectId} = require('../db');
 const jwt = require('jsonwebtoken');
 const crypto = require("crypto");
 
@@ -18,10 +18,12 @@ const generateJwt = userId => jwt.sign(userId, process.env.SECRET_KEY);
 
 const getUserByEmail = async (email) => await users.findOne({email});
 
+const getUserById = async id => users.findOne({_id: ObjectId(id)});
+
 const createUser = async (data) => {
     const newUser = {...data, role: 'user', password: hash(data.password)};
     await users.insertOne(newUser);
     return newUser;
 }
 
-module.exports = {getUserByEmail, createUser, hash}
+module.exports = {getUserByEmail, createUser, hash, getUserById}

@@ -1,5 +1,5 @@
-const {getUserByEmail, createUser, hash} = require("../actions/user.actions");
 const {Errors: {MoleculerError}} = require('moleculer');
+const {getUserByEmail, createUser, hash} = require("../actions/user.actions");
 const {createSession, deleteSession} = require("../actions/sessions.actions");
 
 module.exports = {

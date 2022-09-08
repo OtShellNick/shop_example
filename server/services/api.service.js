@@ -22,9 +22,15 @@ module.exports = {
                     json: true,
                     urlencoded: {extended: true}
                 },
-                onAfterCall: ({meta}, route, req, res) => {
+                onBeforeCall: ({meta}, route, req, res) => {
+                    const {authorization} = req.headers;
+
+                    meta.session = authorization;
+                },
+                onAfterCall: ({meta}, route, req, res, data) => {
                     const {session} = meta;
                     if(session) res.setHeader('Authorization', session);
+                    return data;
                 },
                 onError(req, res, err) {
                     let { type, code, message, data } = err;

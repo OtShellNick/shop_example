@@ -1,7 +1,7 @@
 import {Server} from "@helpers/server";
 import * as CookieHelper from "@helpers/Cookie";
 
-export const getSelf = () => Server.get('/v1/api')
+export const getSelf = () => Server.get('/v1/user/self')
 
 export const registration = data => Server.post('/v1/auth/register', data);
 

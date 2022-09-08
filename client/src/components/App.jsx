@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 
-import {getAuthorization} from "@actions/personal";
+import {getAuthorization, getSelf} from "@actions/personal";
 import {Route, Routes, useNavigate} from "react-router-dom";
 
 import Layout from "@components/Layout/Layout";
@@ -12,6 +12,7 @@ const App = () => {
 
     useEffect(() => {
         const auth = getAuthorization();
+        getSelf();
         if(!auth && location.pathname !== '/login') nav('/login');
         if(auth && location.pathname === '/login') nav('/');
 
