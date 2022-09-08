@@ -24,4 +24,4 @@ const createUser = async (data) => {
     return newUser;
 }
 
-module.exports = {getUserByEmail, createUser}
+module.exports = {getUserByEmail, createUser, hash}

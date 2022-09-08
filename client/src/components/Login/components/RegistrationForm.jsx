@@ -31,9 +31,11 @@ const RegistrationForm = () => {
                     await registration(values);
                     const auth = getAuthorization();
                     if(auth) nav('/');
+                    setSubmitting(false);
                 } catch (e) {
                     const {message} = e;
                     setErrors({message});
+                    setSubmitting(false);
                 }
             }}
         validationSchema={SignupSchema}>

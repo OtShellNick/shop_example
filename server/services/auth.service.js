@@ -1,4 +1,4 @@
-const {getUserByEmail, createUser} = require("../actions/user.actions");
+const {getUserByEmail, createUser, hash} = require("../actions/user.actions");
 const {Errors: {MoleculerError}} = require('moleculer');
 const {createSession} = require("../actions/sessions.actions");
 
@@ -26,7 +26,29 @@ module.exports = {
                         throw new MoleculerError(`User ${email} already exists`, 401, 'ALREADY_EXISTS');
                     }
                 } catch (e) {
-                    console.log('err find user', e);
+                    console.log('err register user', e);
+                    if (e instanceof MoleculerError) throw e;
+                    throw new MoleculerError('Internal Server Error', 500, 'INTERNAL_SERVER_ERROR')
+                }
+            }
+        },
+        login: {
+            rest: 'POST /login',
+            params: {
+                email: {type: 'email', optional: false},
+                password: {type: 'string', optional: false}
+            },
+            handler: async ({params: {email, password}, meta}) => {
+                try {
+                    const user = await getUserByEmail(email);
+
+                    if(!user) throw new MoleculerError(`User ${email} not found`, 404, 'NOT_FOUND');
+
+                    if(user.password !== hash(password)) throw new MoleculerError(`Wrong password`, 401, 'WRONG_PASSWORD');
+
+                    meta.session = await createSession(user);
+                } catch (e) {
+                    console.log('err login user', e);
                     if (e instanceof MoleculerError) throw e;
                     throw new MoleculerError('Internal Server Error', 500, 'INTERNAL_SERVER_ERROR')
                 }

@@ -1,8 +1,11 @@
 import React from "react";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import {getAuthorization, login} from "@actions/personal";
+import {useNavigate} from "react-router-dom";
 
 const LoginForm = () => {
+    const nav = useNavigate();
 
     const LoginSchema = Yup.object().shape({
         password: Yup.string()
@@ -17,8 +20,18 @@ const LoginForm = () => {
     return <div className="Myforma">
         <Formik
             initialValues={{email: "", password: ""}}
-            onSubmit={(values) => {
-                console.log(values);
+            onSubmit={async (values, {setSubmitting, setErrors}) => {
+                setSubmitting(true);
+                try {
+                    await login(values);
+                    const auth = getAuthorization();
+                    if(auth) nav('/');
+                    setSubmitting(false);
+                } catch (err) {
+                    const {message} = err;
+                    setErrors({message});
+                    setSubmitting(false);
+                }
             }}
             validationSchema={LoginSchema}>
             {({
@@ -54,6 +67,7 @@ const LoginForm = () => {
                         {errors.password && touched.password && errors.password}
                     </li>
                 </ul>
+                {errors && errors.message && errors.message}
                 <button className="btn myform__btn" disabled={isSubmitting}>Войти</button>
             </form>}
         </Formik>
