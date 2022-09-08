@@ -8,9 +8,11 @@ export const registration = data => Server.post('/v1/auth/register', data);
 export const login = data => Server.post('/v1/auth/login', data);
 
 export const logout = () => {
-    CookieHelper.del('Authorization');
-    localStorage.removeItem('Authorization');
-    return Promise.resolve(true);
+    return Server.post('/v1/auth/logout', {authorization: getAuthorization()}).then(resp => {
+        CookieHelper.del('Authorization');
+        localStorage.removeItem('Authorization');
+        return resp;
+    });
 }
 
 export const getAuthorization = () => {

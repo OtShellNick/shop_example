@@ -1,6 +1,6 @@
 const {getUserByEmail, createUser, hash} = require("../actions/user.actions");
 const {Errors: {MoleculerError}} = require('moleculer');
-const {createSession} = require("../actions/sessions.actions");
+const {createSession, deleteSession} = require("../actions/sessions.actions");
 
 module.exports = {
     name: 'auth',
@@ -49,6 +49,23 @@ module.exports = {
                     meta.session = await createSession(user);
                 } catch (e) {
                     console.log('err login user', e);
+                    if (e instanceof MoleculerError) throw e;
+                    throw new MoleculerError('Internal Server Error', 500, 'INTERNAL_SERVER_ERROR')
+                }
+            }
+        },
+        logout: {
+            rest: 'POST /logout',
+            params: {
+                authorization: {type: 'string', optional: false},
+            },
+            handler: async ({params: {authorization}}) => {
+
+                try {
+                    await deleteSession(authorization);
+                    return {status: 200, data: 'OK'};
+                } catch (e) {
+                    console.log('err logout user', e);
                     if (e instanceof MoleculerError) throw e;
                     throw new MoleculerError('Internal Server Error', 500, 'INTERNAL_SERVER_ERROR')
                 }

@@ -13,4 +13,10 @@ const createSession = async ({_id}) => {
     return session;
 };
 
-module.exports = {createSession};
+const findSession = async (session) => {
+    return await sessions.findOne({session});
+}
+
+const deleteSession = async (session) => await sessions.deleteOne({session});
+
+module.exports = {createSession, findSession, deleteSession};
