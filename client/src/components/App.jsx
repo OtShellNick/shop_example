@@ -1,16 +1,20 @@
 import React, {useEffect} from 'react';
 
-import {registration} from "@actions/personal";
-import {Route, Routes} from "react-router-dom";
+import {getAuthorization} from "@actions/personal";
+import {Route, Routes, useNavigate} from "react-router-dom";
 
 import Layout from "@components/Layout/Layout";
 import Login from "@components/Login/Login";
 import Home from "@components/Home/Home";
 
 const App = () => {
+    const nav = useNavigate();
 
     useEffect(() => {
-        registration({email: 'test@example.com'});
+        const auth = getAuthorization();
+        if(!auth && location.pathname !== '/login') nav('/login');
+        if(auth && location.pathname === '/login') nav('/');
+
     }, [])
 
     return <Routes>

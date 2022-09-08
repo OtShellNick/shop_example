@@ -1,9 +1,11 @@
 import React from "react";
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {registration} from "@actions/personal";
+import {getAuthorization, registration} from "@actions/personal";
+import {useNavigate} from "react-router-dom";
 
 const RegistrationForm = () => {
+    const nav = useNavigate();
 
     const SignupSchema = Yup.object().shape({
         name: Yup.string()
@@ -22,14 +24,16 @@ const RegistrationForm = () => {
     return <div className="registration">
         <Formik
             initialValues={{name: '', email: "", password: ""}}
-            onSubmit={async (values, {setSubmitting}) => {
+            onSubmit={async (values, {setSubmitting, setErrors}) => {
                 setSubmitting(true);
 
                 try {
-                    const user = await registration(values);
-                    console.log(user);
+                    await registration(values);
+                    const auth = getAuthorization();
+                    if(auth) nav('/');
                 } catch (e) {
-                    console.log(e)
+                    const {message} = e;
+                    setErrors({message});
                 }
             }}
         validationSchema={SignupSchema}>
@@ -76,6 +80,7 @@ const RegistrationForm = () => {
                         {errors.password && touched.password && errors.password}
                     </li>
                 </ul>
+                {errors && errors.message && errors.message}
                 <button className="btn registration__btn" disabled={isSubmitting}>Зарегестрироваться</button>
             </form>}
         </Formik>
