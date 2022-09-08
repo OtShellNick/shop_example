@@ -25,7 +25,7 @@ const LoginForm = () => {
                 try {
                     await login(values);
                     const auth = getAuthorization();
-                    if(auth) nav('/');
+                    if(auth) nav('/', {replace: true});
                     setSubmitting(false);
                 } catch (err) {
                     const {message} = err;

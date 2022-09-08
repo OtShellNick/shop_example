@@ -30,7 +30,7 @@ const RegistrationForm = () => {
                 try {
                     await registration(values);
                     const auth = getAuthorization();
-                    if(auth) nav('/');
+                    if(auth) nav('/', {replace: true});
                     setSubmitting(false);
                 } catch (e) {
                     const {message} = e;

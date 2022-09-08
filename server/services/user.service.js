@@ -14,6 +14,8 @@ module.exports = {
 
                 try {
                     const auth = await findSession(session);
+
+                    if(!auth) throw new MoleculerError('Not authorized', 401, 'NOT_AUTHORIZED');
                     const user = await getUserById(auth.userId);
 
                     delete user.password;
