@@ -1,6 +1,7 @@
 const {Errors: {MoleculerError}} = require('moleculer');
 const {getUserByEmail, createUser, hash} = require("../actions/user.actions");
 const {createSession, deleteSession} = require("../actions/sessions.actions");
+const {addBalanceByUserId, getBalanceByUserId} = require("../actions/balance.actions");
 
 module.exports = {
     name: 'auth',
@@ -20,7 +21,11 @@ module.exports = {
                     let user = await getUserByEmail(email);
 
                     if (!user) {
+
                         user = await createUser({name, email, password});
+                        const userBalance = await addBalanceByUserId(user._id.toString(), 400);
+                        user.balance = userBalance.amount;
+
                         meta.session = await createSession(user);
                     } else {
                         throw new MoleculerError(`User ${email} already exists`, 401, 'ALREADY_EXISTS');
@@ -45,6 +50,9 @@ module.exports = {
                     if(!user) throw new MoleculerError(`User ${email} not found`, 404, 'NOT_FOUND');
 
                     if(user.password !== hash(password)) throw new MoleculerError(`Wrong password`, 401, 'WRONG_PASSWORD');
+
+                    const userBalance = await getBalanceByUserId(user._id.toString());
+                    user.balance = userBalance.amount;
 
                     meta.session = await createSession(user);
                 } catch (e) {

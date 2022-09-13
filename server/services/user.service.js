@@ -1,6 +1,7 @@
 const {Errors: {MoleculerError}} = require('moleculer');
 const {findSession} = require("../actions/sessions.actions");
 const {getUserById} = require("../actions/user.actions");
+const {getBalanceByUserId} = require("../actions/balance.actions");
 
 module.exports = {
     name: 'user',
@@ -17,6 +18,8 @@ module.exports = {
 
                     if(!auth) throw new MoleculerError('Not authorized', 401, 'NOT_AUTHORIZED');
                     const user = await getUserById(auth.userId);
+                    const userBalance = await getBalanceByUserId(user._id.toString());
+                    user.balance = userBalance.amount;
 
                     delete user.password;
                     delete user._id;
